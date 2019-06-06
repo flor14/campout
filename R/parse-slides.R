@@ -10,7 +10,7 @@ sld_extract_key <- function(.file_path) {
 
 sld_remove_extraneous_lines <- function(.lines) {
   removed <- .lines %>%
-    str_remove("^(key|type):.*$") %>%
+    str_remove("^(key|type|disable_transition):.*$") %>%
     str_remove("^`+yaml.*$") %>%
     str_remove("^`\\@.*`.*$") %>%
     str_remove("^name: .*$")
