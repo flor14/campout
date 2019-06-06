@@ -4,8 +4,8 @@
 \alias{datacamp_to_learnr_pkg}
 \title{Convert your DataCamp material into learnr tutorials.}
 \usage{
-datacamp_to_learnr_pkg(dc_path = ".", lrnr_pkg_path = ".",
-  author_name = "Default")
+datacamp_to_learnr_pkg(dc_path = ".", lrnr_pkg_path,
+  author_name = "YOUR NAME")
 }
 \arguments{
 \item{dc_path}{Path to the DataCamp material.}
@@ -24,6 +24,10 @@ interactively.
 \examples{
 \dontrun{
 Temp <- tempdir()
+# Run if your DC course is in the working directory
 datacamp_to_learnr_pkg(lrnr_pkg_path = Temp)
+# Run if your course is somewhere else
+datacamp_to_learnr_pkg("~/Documents/data-camp-course/",
+                       lrnr_pkg_path = Temp)
 }
 }
