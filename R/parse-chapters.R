@@ -123,7 +123,7 @@ chpt_extract_mcq_text <- function(.lines) {
   if (mcq_inside_tab) {
     mcq_text <- mcq_text %>%
       mutate(
-        TabMCQResponses = MCQResponses
+        TabMCQResponses = .data$MCQResponses
       )
   }
 
