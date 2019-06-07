@@ -42,6 +42,7 @@ datacamp_to_learnr_pkg <-
     # Create learnr package
     suppressWarnings(usethis::create_package(lrnr_pkg_path, open = FALSE))
 
+    # Find all chapters and set new names
     chapter_files <- fs::dir_ls(
       path = dc_path,
       regexp = "chapter[1-9]\\.md",
@@ -52,9 +53,11 @@ datacamp_to_learnr_pkg <-
       str_replace("(chapter)", "\\1 ") %>%
       str_to_title()
 
+    # Find and set dependencies
     req_file <- fs::dir_ls(dc_path, regexp = "requirements\\.R$")
     dependencies <- extract_rpkg_deps(req_file)
 
+    # Set up package infrastructure
     withr::with_dir(lrnr_pkg_path, {
       suppressWarnings(
         purrr::walk2(
@@ -70,29 +73,25 @@ datacamp_to_learnr_pkg <-
       usethis::use_blank_slate()
       add_deps_imports(dependencies)
       usethis::use_tidy_versions()
+      usethis::use_readme_md(open = FALSE)
     })
 
+    # Copy over other files
+    copy_datasets_dir_to_lrnr(dc_path, lrnr_pkg_path)
+    copy_slides_dir_to_lrnr(dc_path, lrnr_pkg_path)
+    new_slide_files <-
+      fs::path(lrnr_pkg_path, "inst", "tutorials", "slides") %>%
+      fs::dir_ls(glob = "*.md")
+
+    # Convert chapter files to learnr tutorials
     converted_chapter_files <-
-      purrr::map(chapter_files, dc_chapter_to_lrnr_tutorial)
+      purrr::map(chapter_files,
+                 ~ dc_chapter_to_lrnr_tutorial(.x, new_slide_files))
     new_tutorial_path <-
       fs::dir_ls(lrnr_pkg_path, regexp = "chapter[1-9]", recurse = TRUE)
     purrr::walk2(converted_chapter_files,
                  new_tutorial_path,
                  ~ readr::write_lines(.x, .y))
-
-    copy_datasets_dir_to_lrnr(dc_path, lrnr_pkg_path)
-    copy_slides_dir_to_lrnr(dc_path, lrnr_pkg_path)
-
-    new_slide_files <- fs::dir_ls(fs::path(lrnr_pkg_path, "inst", "tutorials", "slides"),
-                                  glob = "*.md")
-
-    new_tutorial_path %>%
-      purrr::walk(
-        ~ .x %>%
-          readr::read_lines() %>%
-          chpt_insert_slides_text(new_slide_files) %>%
-          readr::write_lines(.x)
-      )
 
     new_slide_files %>%
       purrr::map(dc_slides_to_text_doc) %>%

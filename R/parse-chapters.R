@@ -418,8 +418,15 @@ lrnr_tidy_chapter <- function(.lines_list) {
 }
 
 
-dc_chapter_to_lrnr_tutorial <- function(.chapter_md) {
-  readr::read_lines(.chapter_md) %>%
+dc_chapter_to_lrnr_tutorial <- function(.chapter_md, .slide_files = NULL) {
+  .lines <- readr::read_lines(.chapter_md)
+
+  if (!is.null(.slide_files)) {
+    .lines <- .lines %>%
+      chpt_insert_slides_text(.slide_files = .slide_files)
+  }
+
+  .lines %>%
     chpt_exercise_to_list() %>%
     lrnr_convert_mcq_exercises() %>%
     lrnr_convert_code_exercises() %>%
