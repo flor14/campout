@@ -78,26 +78,42 @@ datacamp_to_learnr_pkg <-
 
     # Copy over other files
     copy_datasets_dir_to_lrnr(dc_path, lrnr_pkg_path)
-    copy_slides_dir_to_lrnr(dc_path, lrnr_pkg_path)
-    new_slide_files <-
-      fs::path_abs(lrnr_pkg_path) %>%
-      fs::path("inst", "tutorials", "slides") %>%
-      fs::dir_ls(glob = "*.Rmd")
+    if(fs::dir_exists(fs::path(dc_path, "slides"))){
+      copy_slides_dir_to_lrnr(dc_path, lrnr_pkg_path)
+      new_slide_files <-
+        fs::path_abs(lrnr_pkg_path) %>%
+        fs::path("inst", "tutorials", "slides") %>%
+        fs::dir_ls(glob = "*.Rmd")
 
-    # Convert chapter files to learnr tutorials
-    converted_chapter_files <-
-      purrr::map(chapter_files,
-                 ~ dc_chapter_to_lrnr_tutorial(.x, new_slide_files))
-    new_tutorial_path <-
-      fs::dir_ls(lrnr_pkg_path, regexp = "chapter[1-9]", recurse = TRUE)
-    purrr::walk2(converted_chapter_files,
-                 new_tutorial_path,
-                 ~ readr::write_lines(.x, .y))
+      # Convert chapter files to learnr tutorials
+      converted_chapter_files <-
+        purrr::map(chapter_files,
+                   ~ dc_chapter_to_lrnr_tutorial(.x, new_slide_files))
+      new_tutorial_path <-
+        fs::dir_ls(lrnr_pkg_path, regexp = "chapter[1-9]", recurse = TRUE)
+      purrr::walk2(converted_chapter_files,
+                   new_tutorial_path,
+                   ~ readr::write_lines(.x, .y))
 
-    new_slide_files %>%
-      purrr::map(dc_slides_to_text_doc) %>%
-      purrr::walk2(new_slide_files,
-                   ~readr::write_lines(.x, .y))
+      new_slide_files %>%
+        purrr::map(dc_slides_to_text_doc) %>%
+        purrr::walk2(new_slide_files,
+                     ~readr::write_lines(.x, .y))
+
+    } else {
+      # Convert chapter files to learnr tutorials
+      converted_chapter_files <-
+        purrr::map(chapter_files,
+                   ~ dc_chapter_to_lrnr_tutorial(.x))
+      new_tutorial_path <-
+        fs::dir_ls(lrnr_pkg_path, regexp = "chapter[1-9]", recurse = TRUE)
+      purrr::walk2(converted_chapter_files,
+                   new_tutorial_path,
+                   ~ readr::write_lines(.x, .y))
+
+    }
+
+
 
   }
 
