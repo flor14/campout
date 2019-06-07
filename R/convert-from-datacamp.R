@@ -82,7 +82,7 @@ datacamp_to_learnr_pkg <-
     new_slide_files <-
       fs::path_abs(lrnr_pkg_path) %>%
       fs::path("inst", "tutorials", "slides") %>%
-      fs::dir_ls(glob = "*.md")
+      fs::dir_ls(glob = "*.Rmd")
 
     # Convert chapter files to learnr tutorials
     converted_chapter_files <-
@@ -107,6 +107,10 @@ copy_slides_dir_to_lrnr <- function(.dc_path, .lrnr_pkg_path) {
   dc_slides_dir <- fs::path(.dc_path, "slides")
   lrnr_slides_dir <- fs::path(.lrnr_pkg_path, "inst", "tutorials", "slides")
   fs::dir_copy(dc_slides_dir, lrnr_slides_dir)
+
+  slides_files <- fs::dir_ls(lrnr_slides_dir, glob = "*.md")
+  renamed_slides <- purrr::map_chr(slides_files, ~ fs::path_ext_set(.x, "Rmd"))
+  fs::file_move(slides_files, renamed_slides)
 }
 
 copy_datasets_dir_to_lrnr <- function(.dc_path, .lrnr_pkg_path) {
