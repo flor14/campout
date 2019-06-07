@@ -117,5 +117,15 @@ copy_datasets_dir_to_lrnr <- function(.dc_path, .lrnr_pkg_path) {
   dc_dataset_dir <- fs::path(.dc_path, "datasets")
   lrnr_dataset_dir <- fs::path(.lrnr_pkg_path, "inst", "tutorials", "datasets")
   fs::dir_copy(dc_dataset_dir, lrnr_dataset_dir)
+
+  data_files <- fs::dir_ls(lrnr_dataset_dir, regexp = ".*\\.[rR]d[sa]$")
+  new_data_files <- str_replace(data_files, "datasets", "www")
+  fs::dir_create(fs::path(.lrnr_pkg_path, "inst", "tutorials", "www"))
+  fs::file_move(data_files, new_data_files)
+
+  image_files <- fs::dir_ls(lrnr_dataset_dir, regexp = ".*\\.(png|jpeg|jpg)$")
+  new_image_files <- str_replace(image_files, "datasets", "images")
+  fs::dir_create(fs::path(.lrnr_pkg_path, "inst", "tutorials", "images"))
+  fs::file_move(image_files, new_image_files)
 }
 

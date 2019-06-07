@@ -38,7 +38,8 @@ sld_remove_dc_reveals <- function(.lines) {
 
 sld_modify_image_path <- function(.lines) {
   .lines %>%
-    str_replace("http.*(datasets)/.*/(.*\\..*\\))$", "\\1/\\2")
+    str_replace("http.*(datasets)/.*/(.*\\..*\\))$", "\\1/\\2") %>%
+    str_replace("datasets", "images")
 }
 
 sld_modify_r_chunks <- function(.lines) {

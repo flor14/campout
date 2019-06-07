@@ -69,7 +69,8 @@ chpt_modify_instruction_name <- function(.lines) {
 chpt_modify_dataset_path <- function(.lines) {
   .lines %>%
     str_replace("^load.*?http.*(datasets)/.*/(.*\\.[rR]da).*$", "load('\\1/\\2')") %>%
-    str_replace("readRDS.*?http.*(datasets)/.*/(.*\\.[rR]ds).*$", "readRDS('\\1/\\2')")
+    str_replace("readRDS.*?http.*(datasets)/.*/(.*\\.[rR]ds).*$", "readRDS('\\1/\\2')") %>%
+    str_replace("datasets", "www")
 }
 
 chpt_modify_yaml <- function(.lines) {
