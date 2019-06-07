@@ -224,7 +224,9 @@ chpt_insert_slides_text <- function(.lines, .slide_files) {
     location <- str_which(.lines, key)
     slide_file <- .slide_files[str_which(slide_keys, key)]
     if (length(slide_file) != 0) {
-      slide_file <- fs::path_ext_set(slide_file, ".Rmd")
+      slide_file <- fs::path_ext_set(slide_file, ".Rmd") %>%
+        fs::path_file()
+      slide_file <- fs::path("slides", slide_file)
       child_chunk <-
         c(as.character(glue::glue("```{{r, child='{slide_file}'}}")),
           "```")

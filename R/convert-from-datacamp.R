@@ -80,7 +80,8 @@ datacamp_to_learnr_pkg <-
     copy_datasets_dir_to_lrnr(dc_path, lrnr_pkg_path)
     copy_slides_dir_to_lrnr(dc_path, lrnr_pkg_path)
     new_slide_files <-
-      fs::path(lrnr_pkg_path, "inst", "tutorials", "slides") %>%
+      fs::path_abs(lrnr_pkg_path) %>%
+      fs::path("inst", "tutorials", "slides") %>%
       fs::dir_ls(glob = "*.md")
 
     # Convert chapter files to learnr tutorials
