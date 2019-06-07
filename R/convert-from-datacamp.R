@@ -36,8 +36,8 @@ datacamp_to_learnr_pkg <-
       rlang::abort("Please make sure to commit changes before converting the course.")
 
     pkgname <- fs::path_file(lrnr_pkg_path)
-    if (str_detect(pkgname, "( |-|_)"))
-      rlang::abort("The name of the new learnr package shouldn't have any spaces, dashes, or underscores")
+    if (str_detect(pkgname, "( |-|_|\\.)"))
+      rlang::abort("The name of the new learnr package shouldn't have any spaces, dashes, underscores, or periods.")
 
     # Create learnr package
     suppressWarnings(usethis::create_package(lrnr_pkg_path, open = FALSE))
