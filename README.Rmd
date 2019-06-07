@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# campout
+# campout: Converting DataCamp material to another, free format
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/lwjohnst86/campout/branch/master/graph/badge.svg)](https://codecov.io/gh/lwjohnst86/campout?branch=master)
 <!-- badges: end -->
 
-The goal of campout is to for instructors of a DataCamp course to easily begin 
+The goal of campout is for instructors of a DataCamp course to easily begin 
 converting their course into an alternative format that allows others to take
 their course without having to get a DataCamp subscription. Use this if you,
 for instance, want to [distance yourself from DataCamp](https://noamross.github.io/datacamp-sexual-assault/),

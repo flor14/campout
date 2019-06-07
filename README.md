@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# campout
+# campout: Converting DataCamp material to another, free format
 
 <!-- badges: start -->
 
@@ -13,7 +13,7 @@ status](https://travis-ci.org/lwjohnst86/campout.svg?branch=master)](https://tra
 coverage](https://codecov.io/gh/lwjohnst86/campout/branch/master/graph/badge.svg)](https://codecov.io/gh/lwjohnst86/campout?branch=master)
 <!-- badges: end -->
 
-The goal of campout is to for instructors of a DataCamp course to easily
+The goal of campout is for instructors of a DataCamp course to easily
 begin converting their course into an alternative format that allows
 others to take their course without having to get a DataCamp
 subscription. Use this if you, for instance, want to [distance yourself
@@ -34,8 +34,8 @@ remotes::install_github("lwjohnst86/campout")
 
 # Usage
 
-So far there is only one conversion to the [learnr tutorials](https://rstudio.github.io/learnr), with this
-function:
+So far there is only one conversion to the [learnr
+tutorials](https://rstudio.github.io/learnr), with this function:
 
 ``` r
 datacamp_to_learnr_pkg("path/to/data-camp-course",
